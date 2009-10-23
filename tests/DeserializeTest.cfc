@@ -103,6 +103,7 @@
 		<cfset assertEquals(JSONUtilCF,CF8CF) />
 	</cffunction>
 	
+	<!---
 	<cffunction name="testCustomFunction" output="false" access="public" returntype="void" hint="Compare JSONUtil.deserialize to DeserializeJSON for a UDF.">
 		<cfset testJSON = SerializeJSON(functionToSerialize) />
 		<cfset debug(testJSON)>
@@ -110,6 +111,7 @@
 		<cfset CF8CF = DeserializeJSON(testJSON) />
 		<cfset assertEquals(JSONUtilCF,CF8CF) />		
 	</cffunction>
+	--->
 	
 	<cffunction name="testDate" output="false" access="public" returntype="void" hint="Compare JSONUtil.deserialize to DeserializeJSON for a date.">
 		<cfset testValue = Now()  />
@@ -138,6 +140,7 @@
 		<cfset assertEquals(JSONUtilCF,CF8CF) />
 	</cffunction>
 	
+	<!---
 	<cffunction name="testObjectComponent" output="false" access="public" returntype="void" hint="Compare JSONUtil.deserialize to DeserializeJSON for a ColdFusion component.">
 		<cfset testValue = CreateObject("component","TestComponent")  />
 		<cfset testJSON = SerializeJSON(testValue) />
@@ -146,6 +149,7 @@
 		<cfset CF8CF = DeserializeJSON(testJSON) />
 		<cfset assertEquals(JSONUtilCF,CF8CF) />
 	</cffunction>
+	--->
 	
 	<cffunction name="testObjectJava" output="false" access="public" returntype="void" hint="Compare JSONUtil.deserialize to DeserializeJSON for a Java object.">
 		<cfset testValue = CreateObject("java","java.lang.String")  />

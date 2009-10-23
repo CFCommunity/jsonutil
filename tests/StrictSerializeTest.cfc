@@ -11,7 +11,7 @@
 	<cffunction name="testBooleanTrueBoolean" output="false" access="public" returntype="void" hint="Compare JSONUtil.serialize to SerializeJSON for a boolean true.">
 		<cfset testValue =  true />
 		<cfset testValue = JavaCast("boolean",testValue) />
-		<cfset testJSON = variables.JSONUtil.serialize(testValue, false, true) />
+		<cfset testJSON = variables.JSONUtil.serializeJSON(testValue, false, true) />
 		<cfset referenceJSON = "true" />
 		<cfset assertEquals(testJSON,referenceJSON) />
 	</cffunction>
@@ -19,7 +19,7 @@
 	<cffunction name="testBooleanFalseBoolean" output="false" access="public" returntype="void" hint="Compare JSONUtil.serialize to SerializeJSON for a boolean false.">
 		<cfset testValue =  false />
 		<cfset testValue = JavaCast("boolean",testValue) />
-		<cfset testJSON = variables.JSONUtil.serialize(testValue, false, true) />
+		<cfset testJSON = variables.JSONUtil.serializeJSON(testValue, false, true) />
 		<cfset referenceJSON = "false" />
 		<cfset assertEquals(testJSON,referenceJSON) />
 	</cffunction>
@@ -27,7 +27,7 @@
 	<cffunction name="testBoolean1" output="false" access="public" returntype="void" hint="Compare JSONUtil.serialize to SerializeJSON for the number 1.">
 		<cfset testValue =  1 />
 		<cfset testValue = JavaCast("boolean",testValue) />
-		<cfset testJSON = variables.JSONUtil.serialize(testValue, false, true) />
+		<cfset testJSON = variables.JSONUtil.serializeJSON(testValue, false, true) />
 		<cfset referenceJSON = "true" />
 		<cfset assertEquals(testJSON,referenceJSON) />
 	</cffunction>
@@ -35,7 +35,7 @@
 	<cffunction name="testBoolean0" output="false" access="public" returntype="void" hint="Compare JSONUtil.serialize to SerializeJSON for the number 0.">
 		<cfset testValue =  0 />
 		<cfset testValue = JavaCast("boolean",testValue) />
-		<cfset testJSON = variables.JSONUtil.serialize(testValue, false, true) />
+		<cfset testJSON = variables.JSONUtil.serializeJSON(testValue, false, true) />
 		<cfset referenceJSON = "false" />
 		<cfset assertEquals(testJSON,referenceJSON) />
 	</cffunction>	
@@ -43,7 +43,7 @@
 	<cffunction name="testBooleanYes" output="false" access="public" returntype="void" hint="Compare JSONUtil.serialize to SerializeJSON for the string 'Yes'.">
 		<cfset testValue =  "Yes" />
 		<cfset testValue = JavaCast("boolean",testValue) />
-		<cfset testJSON = variables.JSONUtil.serialize(testValue, false, true) />
+		<cfset testJSON = variables.JSONUtil.serializeJSON(testValue, false, true) />
 		<cfset referenceJSON = "true" />
 		<cfset assertEquals(testJSON,referenceJSON) />
 	</cffunction>
@@ -51,7 +51,7 @@
 	<cffunction name="testBooleanNo" output="false" access="public" returntype="void" hint="Compare JSONUtil.serialize to SerializeJSON for the string 'No'.">
 		<cfset testValue =  "No" />
 		<cfset testValue = JavaCast("boolean",testValue) />
-		<cfset testJSON = variables.JSONUtil.serialize(testValue, false, true) />
+		<cfset testJSON = variables.JSONUtil.serializeJSON(testValue, false, true) />
 		<cfset referenceJSON = "false" />
 		<cfset assertEquals(testJSON,referenceJSON) />
 	</cffunction>
@@ -59,7 +59,7 @@
 	<cffunction name="testBooleanTrue" output="false" access="public" returntype="void" hint="Compare JSONUtil.serialize to SerializeJSON for the string 'True'.">
 		<cfset testValue = "True" />
 		<cfset testValue = JavaCast("boolean",testValue) />
-		<cfset testJSON = variables.JSONUtil.serialize(testValue, false, true) />
+		<cfset testJSON = variables.JSONUtil.serializeJSON(testValue, false, true) />
 		<cfset referenceJSON = "true" />
 		<cfset assertEquals(testJSON,referenceJSON) />
 	</cffunction>
@@ -67,21 +67,21 @@
 	<cffunction name="testBooleanFalse" output="false" access="public" returntype="void" hint="Compare JSONUtil.serialize to SerializeJSON for the string 'False'.">
 		<cfset testValue = "False" />
 		<cfset testValue = JavaCast("boolean",testValue) />
-		<cfset testJSON = variables.JSONUtil.serialize(testValue, false, true) />
+		<cfset testJSON = variables.JSONUtil.serializeJSON(testValue, false, true) />
 		<cfset referenceJSON = "false" />
 		<cfset assertEquals(testJSON,referenceJSON) />
 	</cffunction>
 	
 	<cffunction name="testInteger" output="false" access="public" returntype="void" hint="Compare JSONUtil.serialize to SerializeJSON for a number.">
 		<cfset testValue = 123  />
-		<cfset testJSON = variables.JSONUtil.serialize(testValue, false, true) />
+		<cfset testJSON = variables.JSONUtil.serializeJSON(testValue, false, true) />
 		<cfset referenceJSON = '"123"' />
 		<cfset assertEquals(testJSON,referenceJSON) />
 	</cffunction>
 	
 	<cffunction name="testDecimal" output="false" access="public" returntype="void" hint="Compare JSONUtil.serialize to SerializeJSON for a number.">
 		<cfset testValue = 123.456  />
-		<cfset testJSON = variables.JSONUtil.serialize(testValue, false, true) />
+		<cfset testJSON = variables.JSONUtil.serializeJSON(testValue, false, true) />
 		<cfset referenceJSON = '"123.456"' />
 		<cfset assertEquals(testJSON,referenceJSON) />
 	</cffunction>
@@ -89,7 +89,7 @@
 	<cffunction name="testNumericInteger" output="false" access="public" returntype="void" hint="Compare JSONUtil.serialize to SerializeJSON for a number.">
 		<cfset testValue = 123  />
 		<cfset testValue = JavaCast("int",testValue) />
-		<cfset testJSON = variables.JSONUtil.serialize(testValue, false, true) />
+		<cfset testJSON = variables.JSONUtil.serializeJSON(testValue, false, true) />
 		<cfset referenceJSON = "123" />
 		<cfset assertEquals(testJSON,referenceJSON) />
 	</cffunction>
@@ -97,21 +97,21 @@
 	<cffunction name="testNumericDecimal" output="false" access="public" returntype="void" hint="Compare JSONUtil.serialize to SerializeJSON for a number.">
 		<cfset testValue = 123.456  />
 		<cfset testValue = JavaCast("double",testValue) />
-		<cfset testJSON = variables.JSONUtil.serialize(testValue, false, true) />
+		<cfset testJSON = variables.JSONUtil.serializeJSON(testValue, false, true) />
 		<cfset referenceJSON = "123.456" />
 		<cfset assertEquals(testJSON,referenceJSON) />
 	</cffunction>
 		
 	<cffunction name="testStringInteger" output="false" access="public" returntype="void" hint="Compare JSONUtil.serialize to SerializeJSON for a number.">
 		<cfset testValue = "123"  />
-		<cfset testJSON = variables.JSONUtil.serialize(testValue, false, true) />
+		<cfset testJSON = variables.JSONUtil.serializeJSON(testValue, false, true) />
 		<cfset referenceJSON = '"123"' />
 		<cfset assertEquals(testJSON,referenceJSON) />
 	</cffunction>
 	
 	<cffunction name="testStringDecimal" output="false" access="public" returntype="void" hint="Compare JSONUtil.serialize to SerializeJSON for a number.">
 		<cfset testValue = "123.456" />
-		<cfset testJSON = variables.JSONUtil.serialize(testValue, false, true) />
+		<cfset testJSON = variables.JSONUtil.serializeJSON(testValue, false, true) />
 		<cfset referenceJSON = '"123.456"' />
 		<cfset assertEquals(testJSON,referenceJSON) />
 	</cffunction>
@@ -162,21 +162,21 @@
 	
 	<cffunction name="testString" output="false" access="public" returntype="void" hint="Compare JSONUtil.serialize to SerializeJSON for a string.">
 		<cfset testValue = "Hello World!" />	
-		<cfset testJSON = variables.JSONUtil.serialize(testValue, false, true) />
+		<cfset testJSON = variables.JSONUtil.serializeJSON(testValue, false, true) />
 		<cfset referenceJSON = '"Hello World!"' />
 		<cfset assertEquals(testJSON,referenceJSON) />
 	</cffunction>
 	
 	<cffunction name="testStringBoolean" output="false" access="public" returntype="void" hint="Compare JSONUtil.serialize to SerializeJSON for a string.">
 		<cfset testValue = "false" />	
-		<cfset testJSON = variables.JSONUtil.serialize(testValue, false, true) />
+		<cfset testJSON = variables.JSONUtil.serializeJSON(testValue, false, true) />
 		<cfset referenceJSON = '"false"' />
 		<cfset assertEquals(testJSON,referenceJSON) />
 	</cffunction>
 	
 	<cffunction name="testStringNumeric" output="false" access="public" returntype="void" hint="Compare JSONUtil.serialize to SerializeJSON for a string.">
 		<cfset testValue = "123" />	
-		<cfset testJSON = variables.JSONUtil.serialize(testValue, false, true) />
+		<cfset testJSON = variables.JSONUtil.serializeJSON(testValue, false, true) />
 		<cfset referenceJSON = '"123"' />
 		<cfset assertEquals(testJSON,referenceJSON) />
 	</cffunction>

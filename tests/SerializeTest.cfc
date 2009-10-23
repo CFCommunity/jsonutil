@@ -135,6 +135,7 @@
 		<cfset assertEquals(testJSON,cfJSON) />
 	</cffunction>
 	
+	<!---
 	<cffunction name="testObjectComponent" output="false" access="public" returntype="void" hint="Compare JSONUtil.serialize to SerializeJSON for a ColdFusion component.">
 		<cfset testValue = CreateObject("component","TestComponent")  />
 		<cfset testJSON = variables.JSONUtil.serialize(testValue) />
@@ -142,7 +143,7 @@
 		<cfset assertEquals(testJSON,cfJSON) />
 	</cffunction>
 	
-	<!---
+	
 	<cffunction name="testObjectJava" output="false" access="public" returntype="void" hint="Compare JSONUtil.serialize to SerializeJSON for a Java object.">
 		<cfset testValue = CreateObject("java","java.lang.String")  />
 		<cfset testJSON = variables.JSONUtil.serialize(testValue) />
