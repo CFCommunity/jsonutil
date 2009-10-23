@@ -161,10 +161,22 @@
 	</cffunction>
 	
 	<cffunction name="testQuery" output="false" access="public" returntype="void" hint="Compare JSONUtil.deserialize to DeserializeJSON for a ColdFusion query.">
-		<cfquery name="testValue" datasource="cfartgallery">
-			SELECT FIRSTNAME, LASTNAME
-			FROM   ARTISTS
-		</cfquery>		
+		<cfset testValue = QueryNew("VarCharCol,IntCol,DecimalCol,DateCol","VarChar,Integer,Decimal,Date") />
+		<cfset QueryAddRow(testValue) />
+		<cfset QuerySetCell(testValue,"VarCharCol","Test String") />
+		<cfset QuerySetCell(testValue,"IntCol",1) />
+		<cfset QuerySetCell(testValue,"DecimalCol",1.1) />
+		<cfset QuerySetCell(testValue,"DateCol",CreateDateTime(2008, 12, 14, 14, 30, 0)) />
+		<cfset QueryAddRow(testValue) />
+		<cfset QuerySetCell(testValue,"VarCharCol","123") />
+		<cfset QuerySetCell(testValue,"IntCol",2) />
+		<cfset QuerySetCell(testValue,"DecimalCol",2.2) />
+		<cfset QuerySetCell(testValue,"DateCol",CreateDateTime(2008, 12, 14, 14, 30, 0)) />
+		<cfset QueryAddRow(testValue) />
+		<cfset QuerySetCell(testValue,"VarCharCol","true") />
+		<cfset QuerySetCell(testValue,"IntCol",3) />
+		<cfset QuerySetCell(testValue,"DecimalCol",3.3) />
+		<cfset QuerySetCell(testValue,"DateCol",CreateDateTime(2008, 12, 14, 14, 30, 0)) />		
 		<cfset testJSON = SerializeJSON(testValue) />
 		<cfset debug(testJSON)>
 		<cfset JSONUtilCF = variables.JSONUtil.deserialize(testJSON) />
@@ -175,10 +187,22 @@
 	</cffunction>
 	
 	<cffunction name="testQueryByColumns" output="false" access="public" returntype="void" hint="Compare JSONUtil.deserialize to DeserializeJSON for a ColdFusion query.">
-		<cfquery name="testValue" datasource="cfartgallery">
-			SELECT FIRSTNAME, LASTNAME
-			FROM   ARTISTS
-		</cfquery>		
+		<cfset testValue = QueryNew("VarCharCol,IntCol,DecimalCol,DateCol","VarChar,Integer,Decimal,Date") />
+		<cfset QueryAddRow(testValue) />
+		<cfset QuerySetCell(testValue,"VarCharCol","Test String") />
+		<cfset QuerySetCell(testValue,"IntCol",1) />
+		<cfset QuerySetCell(testValue,"DecimalCol",1.1) />
+		<cfset QuerySetCell(testValue,"DateCol",CreateDateTime(2008, 12, 14, 14, 30, 0)) />
+		<cfset QueryAddRow(testValue) />
+		<cfset QuerySetCell(testValue,"VarCharCol","123") />
+		<cfset QuerySetCell(testValue,"IntCol",2) />
+		<cfset QuerySetCell(testValue,"DecimalCol",2.2) />
+		<cfset QuerySetCell(testValue,"DateCol",CreateDateTime(2008, 12, 14, 14, 30, 0)) />
+		<cfset QueryAddRow(testValue) />
+		<cfset QuerySetCell(testValue,"VarCharCol","true") />
+		<cfset QuerySetCell(testValue,"IntCol",3) />
+		<cfset QuerySetCell(testValue,"DecimalCol",3.3) />
+		<cfset QuerySetCell(testValue,"DateCol",CreateDateTime(2008, 12, 14, 14, 30, 0)) />			
 		<cfset testJSON = SerializeJSON(testValue, true) />
 		<cfset debug(testJSON)>
 		<cfset JSONUtilCF = variables.JSONUtil.deserialize(testJSON) />
@@ -189,10 +213,22 @@
 	</cffunction>
 	
 	<cffunction name="testQueryNotStrict" output="false" access="public" returntype="void" hint="Compare JSONUtil.deserialize to DeserializeJSON for a ColdFusion query.">
-		<cfquery name="testValue" datasource="cfartgallery">
-			SELECT FIRSTNAME, LASTNAME
-			FROM   ARTISTS
-		</cfquery>		
+		<cfset testValue = QueryNew("VarCharCol,IntCol,DecimalCol,DateCol","VarChar,Integer,Decimal,Date") />
+		<cfset QueryAddRow(testValue) />
+		<cfset QuerySetCell(testValue,"VarCharCol","Test String") />
+		<cfset QuerySetCell(testValue,"IntCol",1) />
+		<cfset QuerySetCell(testValue,"DecimalCol",1.1) />
+		<cfset QuerySetCell(testValue,"DateCol",CreateDateTime(2008, 12, 14, 14, 30, 0)) />
+		<cfset QueryAddRow(testValue) />
+		<cfset QuerySetCell(testValue,"VarCharCol","123") />
+		<cfset QuerySetCell(testValue,"IntCol",2) />
+		<cfset QuerySetCell(testValue,"DecimalCol",2.2) />
+		<cfset QuerySetCell(testValue,"DateCol",CreateDateTime(2008, 12, 14, 14, 30, 0)) />
+		<cfset QueryAddRow(testValue) />
+		<cfset QuerySetCell(testValue,"VarCharCol","true") />
+		<cfset QuerySetCell(testValue,"IntCol",3) />
+		<cfset QuerySetCell(testValue,"DecimalCol",3.3) />
+		<cfset QuerySetCell(testValue,"DateCol",CreateDateTime(2008, 12, 14, 14, 30, 0)) />			
 		<cfset testJSON = SerializeJSON(testValue) />
 		<cfset debug(testJSON)>
 		<cfset JSONUtilCF = variables.JSONUtil.deserialize(testJSON, false) />
@@ -203,10 +239,22 @@
 	</cffunction>
 	
 	<cffunction name="testQueryByColumnsNotStrict" output="false" access="public" returntype="void" hint="Compare JSONUtil.deserialize to DeserializeJSON for a ColdFusion query.">
-		<cfquery name="testValue" datasource="cfartgallery">
-			SELECT FIRSTNAME, LASTNAME
-			FROM   ARTISTS
-		</cfquery>		
+		<cfset testValue = QueryNew("VarCharCol,IntCol,DecimalCol,DateCol","VarChar,Integer,Decimal,Date") />
+		<cfset QueryAddRow(testValue) />
+		<cfset QuerySetCell(testValue,"VarCharCol","Test String") />
+		<cfset QuerySetCell(testValue,"IntCol",1) />
+		<cfset QuerySetCell(testValue,"DecimalCol",1.1) />
+		<cfset QuerySetCell(testValue,"DateCol",CreateDateTime(2008, 12, 14, 14, 30, 0)) />
+		<cfset QueryAddRow(testValue) />
+		<cfset QuerySetCell(testValue,"VarCharCol","123") />
+		<cfset QuerySetCell(testValue,"IntCol",2) />
+		<cfset QuerySetCell(testValue,"DecimalCol",2.2) />
+		<cfset QuerySetCell(testValue,"DateCol",CreateDateTime(2008, 12, 14, 14, 30, 0)) />
+		<cfset QueryAddRow(testValue) />
+		<cfset QuerySetCell(testValue,"VarCharCol","true") />
+		<cfset QuerySetCell(testValue,"IntCol",3) />
+		<cfset QuerySetCell(testValue,"DecimalCol",3.3) />
+		<cfset QuerySetCell(testValue,"DateCol",CreateDateTime(2008, 12, 14, 14, 30, 0)) />			
 		<cfset testJSON = SerializeJSON(testValue, true) />
 		<cfset debug(testJSON)>
 		<cfset JSONUtilCF = variables.JSONUtil.deserialize(testJSON, false) />
