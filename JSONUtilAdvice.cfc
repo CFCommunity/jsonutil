@@ -90,12 +90,7 @@ limitations under the License.
 		
 		<cfif arguments.strictMapping>		
 			<!--- GET THE CLASS NAME --->			
-			<cftry>				
-				<cfset className = _data.getClass().getName() />			
-				<cfcatch type="any">
-					<cfset className = "" />
-				</cfcatch>			
-			</cftry>			
+			<cfset className = getClassName(_data) />							
 		</cfif>
 			
 		<!--- TRY STRICT MAPPING --->
@@ -127,8 +122,12 @@ limitations under the License.
 			<cfreturn ReplaceList(YesNoFormat(_data), 'Yes,No', 'true,false') />			
 			
 		<!--- NUMBER --->
-		<cfelseif IsNumeric(_data) AND NOT REFind("^0+[^\.]",_data)>
-			<cfreturn ToString(_data) />
+		<cfelseif IsNumeric(_data)>
+			<cfif getClassName(_data) eq "java.lang.String">
+				<cfreturn Val(_data).toString() />
+			<cfelse>
+				<cfreturn _data.toString() />
+			</cfif>
 		
 		<!--- DATE --->
 		<cfelseif IsDate(_data)>
@@ -138,6 +137,10 @@ limitations under the License.
 		<cfelseif IsSimpleValue(_data)>
 			<cfreturn '"' & ReplaceList(_data, escapeVals, escapeToVals) & '"' />
 			
+		<!--- RAILO XML --->
+		<cfelseif StructKeyExists(server,"railo") and IsXML(_data)>
+			<cfreturn '"' & ReplaceList(ToString(_data), escapeVals, escapeToVals) & '"' />
+		
 		<!--- CUSTOM FUNCTION --->
 		<cfelseif IsCustomFunction(_data)>			
 			<cfreturn serializeToJSON( GetMetadata(_data), arguments.strictMapping) />
@@ -198,7 +201,7 @@ limitations under the License.
 					<cfset rowDel = "">	
 					<cfloop from="1" to="#_data.recordcount#" index="i">
 						<cfset ArrayAppend(dJSONString,rowDel) />
-						<cfif arguments.strictMapping AND Len(columnJavaTypes[column])>
+						<cfif (arguments.strictMapping or StructKeyExists(server,"railo")) AND Len(columnJavaTypes[column])>
 							<cfset tempVal = serializeToJSON( JavaCast(columnJavaTypes[column],_data[column][i]), arguments.serializeQueryByColumns, arguments.strictMapping ) />
 						<cfelse>
 							<cfset tempVal = serializeToJSON( _data[column][i], arguments.serializeQueryByColumns, arguments.strictMapping ) />
@@ -220,7 +223,7 @@ limitations under the License.
 					<cfset colDel = "">					
 					<cfloop list="#columnlist#" delimiters="," index="column">
 						<cfset ArrayAppend(dJSONString,colDel) />
-						<cfif arguments.strictMapping AND Len(columnJavaTypes[column])>
+						<cfif (arguments.strictMapping or StructKeyExists(server,"railo")) AND Len(columnJavaTypes[column])>
 							<cfset tempVal = serializeToJSON( JavaCast(columnJavaTypes[column],_data[column][i]), arguments.serializeQueryByColumns, arguments.strictMapping ) />
 						<cfelse>
 							<cfset tempVal = serializeToJSON( _data[column][i], arguments.serializeQueryByColumns, arguments.strictMapping ) />
@@ -291,6 +294,28 @@ limitations under the License.
 			</cfdefaultcase>
 		
 		</cfswitch>
+		
+	</cffunction>
+	
+	<cffunction 
+		name="getClassName"
+		access="private" 
+		returntype="string" 
+		output="false"
+		hint="Returns a variable's underlying java Class name.">
+		<cfargument 
+			name="data" 
+			type="any" 
+			required="true"
+			hint="A variable." />
+			
+		<!--- GET THE CLASS NAME --->			
+		<cftry>				
+			<cfreturn arguments.data.getClass().getName() />			
+			<cfcatch type="any">
+				<cfreturn "" />
+			</cfcatch>			
+		</cftry>
 		
 	</cffunction>
 	
