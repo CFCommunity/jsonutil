@@ -179,7 +179,6 @@
 		<cfset testJSON = variables.JSONUtil.serialize(testValue) />
 		<cfset debug(testJSON) />
 		<cfset referenceJSON = '{"COLUMNS":["VARCHARCOL","INTCOL","DECIMALCOL","DATECOL"],"DATA":[["Test String",1,1.1,"December, 14 2008 14:30:00"],[123.0,2,2.2,"December, 14 2008 14:30:00"],[true,3,3.3,"December, 14 2008 14:30:00"]]}' />
-		<!--- currently fails with the 123 value being serialized by JSONUtil as 123 instead of expected 123.0 --->
 		<cfset assertEquals(testJSON,referenceJSON) />
 	</cffunction>
 	
@@ -202,7 +201,6 @@
 		<cfset QuerySetCell(testValue,"DateCol",CreateDateTime(2008, 12, 14, 14, 30, 0)) />		
 		<cfset testJSON = variables.JSONUtil.serialize(testValue, true) />
 		<cfset referenceJSON = '{"ROWCOUNT":3,"COLUMNS":["VARCHARCOL","INTCOL","DECIMALCOL","DATECOL"],"DATA":{"VARCHARCOL":["Test String",123.0,true],"INTCOL":[1,2,3],"DECIMALCOL":[1.1,2.2,3.3],"DATECOL":["December, 14 2008 14:30:00","December, 14 2008 14:30:00","December, 14 2008 14:30:00"]}}' />
-		<!--- currently fails with the 123 value being serialized by JSONUtil as 123 instead of expected 123.0 --->
 		<cfset assertEquals(testJSON,referenceJSON) />
 	</cffunction>
 	
