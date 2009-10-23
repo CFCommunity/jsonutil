@@ -321,12 +321,7 @@ limitations under the License.
 		
 		<cfif arguments.strictMapping>		
 			<!--- GET THE CLASS NAME --->			
-			<cftry>				
-				<cfset className = _data.getClass().getName() />			
-				<cfcatch type="any">
-					<cfset className = "" />
-				</cfcatch>			
-			</cftry>			
+			<cfset className = getClassName(_data) />							
 		</cfif>
 			
 		<!--- TRY STRICT MAPPING --->
@@ -359,8 +354,11 @@ limitations under the License.
 			
 		<!--- NUMBER --->
 		<cfelseif IsNumeric(_data)>
-			<cfdump var="#_data#" output="C:/Inetpub/wwwroot/jsonutil/log.txt" />
-			<cfreturn ToString(Val(_data)) />
+			<cfif getClassName(_data) eq "java.lang.String">
+				<cfreturn Val(_data).toString() />
+			<cfelse>
+				<cfreturn _data.toString() />
+			</cfif>
 		
 		<!--- DATE --->
 		<cfelseif IsDate(_data)>
@@ -523,6 +521,28 @@ limitations under the License.
 			</cfdefaultcase>
 		
 		</cfswitch>
+		
+	</cffunction>
+	
+	<cffunction 
+		name="getClassName"
+		access="private" 
+		returntype="string" 
+		output="false"
+		hint="Returns a variable's underlying java Class name.">
+		<cfargument 
+			name="data" 
+			type="any" 
+			required="true"
+			hint="A variable." />
+			
+		<!--- GET THE CLASS NAME --->			
+		<cftry>				
+			<cfreturn arguments.data.getClass().getName() />			
+			<cfcatch type="any">
+				<cfreturn "" />
+			</cfcatch>			
+		</cftry>
 		
 	</cffunction>
 	
