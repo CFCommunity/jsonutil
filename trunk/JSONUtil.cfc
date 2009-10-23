@@ -432,7 +432,7 @@ limitations under the License.
 					<cfset rowDel = "">	
 					<cfloop from="1" to="#_data.recordcount#" index="i">
 						<cfset ArrayAppend(dJSONString,rowDel) />
-						<cfif ((arguments.strictMapping or StructKeyExists(server,"railo")) AND Len(columnJavaTypes[column]))>
+						<cfif (arguments.strictMapping or StructKeyExists(server,"railo")) AND Len(columnJavaTypes[column])>
 							<cfset tempVal = serializeToJSON( JavaCast(columnJavaTypes[column],_data[column][i]), arguments.serializeQueryByColumns, arguments.strictMapping ) />
 						<cfelse>
 							<cfset tempVal = serializeToJSON( _data[column][i], arguments.serializeQueryByColumns, arguments.strictMapping ) />
@@ -454,7 +454,7 @@ limitations under the License.
 					<cfset colDel = "">					
 					<cfloop list="#columnlist#" delimiters="," index="column">
 						<cfset ArrayAppend(dJSONString,colDel) />
-						<cfif arguments.strictMapping AND Len(columnJavaTypes[column])>
+						<cfif (arguments.strictMapping or StructKeyExists(server,"railo")) AND Len(columnJavaTypes[column])>
 							<cfset tempVal = serializeToJSON( JavaCast(columnJavaTypes[column],_data[column][i]), arguments.serializeQueryByColumns, arguments.strictMapping ) />
 						<cfelse>
 							<cfset tempVal = serializeToJSON( _data[column][i], arguments.serializeQueryByColumns, arguments.strictMapping ) />
