@@ -368,6 +368,10 @@ limitations under the License.
 		<cfelseif IsSimpleValue(_data)>
 			<cfreturn '"' & ReplaceList(_data, escapeVals, escapeToVals) & '"' />
 			
+		<!--- RAILO XML --->
+		<cfelseif StructKeyExists(server,"railo") and IsXML(_data)>
+			<cfreturn '"' & ReplaceList(ToString(_data), escapeVals, escapeToVals) & '"' />
+		
 		<!--- CUSTOM FUNCTION --->
 		<cfelseif IsCustomFunction(_data)>			
 			<cfreturn serializeToJSON( GetMetadata(_data), arguments.strictMapping) />
