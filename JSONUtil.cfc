@@ -358,8 +358,9 @@ limitations under the License.
 			<cfreturn ReplaceList(YesNoFormat(_data), 'Yes,No', 'true,false') />			
 			
 		<!--- NUMBER --->
-		<cfelseif IsNumeric(_data) AND NOT REFind("^0+[^\.]",_data)>
-			<cfreturn ToString(_data) />
+		<cfelseif IsNumeric(_data)>
+			<cfdump var="#_data#" output="C:/Inetpub/wwwroot/jsonutil/log.txt" />
+			<cfreturn ToString(Val(_data)) />
 		
 		<!--- DATE --->
 		<cfelseif IsDate(_data)>
