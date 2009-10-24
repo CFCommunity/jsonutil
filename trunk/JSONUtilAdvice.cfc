@@ -143,7 +143,7 @@ limitations under the License.
 		
 		<!--- CUSTOM FUNCTION --->
 		<cfelseif IsCustomFunction(_data)>			
-			<cfreturn serializeToJSON( GetMetadata(_data), arguments.strictMapping) />
+			<cfreturn serializeToJSON( GetMetadata(_data), arguments.serializeQueryByColumns, arguments.strictMapping) />
 			
 		<!--- OBJECT --->
 		<cfelseif IsObject(_data)>		
