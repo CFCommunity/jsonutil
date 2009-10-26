@@ -1,4 +1,4 @@
-JSONUtil Read Me
+JSONUtil Version @VERSION@ Read Me
 
 1.  Welcome
 2.  License and Credits
