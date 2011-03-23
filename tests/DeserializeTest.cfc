@@ -235,7 +235,13 @@
 		<cfset debug(JSONUtilCF)>
 		<cfset CF8CF = DeserializeJSON(testJSON, false) />
 		<cfset debug(CF8CF)>
-		<cfset assertEquals(JSONUtilCF,CF8CF) />
+		
+		<!--- conver to WDDX to compare --->
+		<cfwddx action="cfml2wddx" input="#JSONUtilCF#" output="JSONUtilWDDX"/>
+		<cfwddx action="cfml2wddx" input="#CF8CF#" output="CF8WDDX"/>
+		
+		<cfset assertTrue(CompareNoCase(JSONUtilWDDX,CF8WDDX)) />
+		
 	</cffunction>
 	
 	<cffunction name="testQueryByColumnsNotStrict" output="false" access="public" returntype="void" hint="Compare JSONUtil.deserialize to DeserializeJSON for a ColdFusion query.">
@@ -261,7 +267,41 @@
 		<cfset debug(JSONUtilCF)>
 		<cfset CF8CF = DeserializeJSON(testJSON, false) />
 		<cfset debug(CF8CF)>
-		<cfset assertEquals(JSONUtilCF,CF8CF) />
+				
+		<!--- conver to WDDX to compare --->
+		<cfwddx action="cfml2wddx" input="#JSONUtilCF#" output="JSONUtilWDDX"/>
+		<cfwddx action="cfml2wddx" input="#CF8CF#" output="CF8WDDX"/>
+		
+		<cfset assertTrue(CompareNoCase(JSONUtilWDDX,CF8WDDX)) />
+			
+	</cffunction>
+	
+	<cffunction name="testQueryNotStrictWithBracket" output="false" access="public" returntype="void" hint="Compare JSONUtil.deserialize to DeserializeJSON for a ColdFusion query.">
+		<cfset testValue = QueryNew("Remarks,Name")>
+		<cfset QueryAddRow(testValue)>
+		<cfset QuerySetCell(testValue,"Remarks","Brackets test [68] to see if it deserializes")>
+		<cfset QuerySetCell(testValue,"Name","TEST")>			
+		<cfset testJSON = SerializeJSON(testValue) />
+		<cfset debug(testJSON)>
+		<cfset JSONUtilCF = variables.JSONUtil.deserialize(testJSON, false) />
+		<cfset debug(JSONUtilCF)>
+				
+		<cfset assertTrue(IsQuery(JSONUtilCF)) />
+		
+	</cffunction>
+	
+	<cffunction name="testQueryByColumnsNotStrictWithBracket" output="false" access="public" returntype="void" hint="Compare JSONUtil.deserialize to DeserializeJSON for a ColdFusion query.">
+		<cfset testValue = QueryNew("Remarks,Name")>
+		<cfset QueryAddRow(testValue)>
+		<cfset QuerySetCell(testValue,"Remarks","Brackets test [68] to see if it deserializes")>
+		<cfset QuerySetCell(testValue,"Name","TEST")>				
+		<cfset testJSON = SerializeJSON(testValue, true) />
+		<cfset debug(testJSON)>
+		<cfset JSONUtilCF = variables.JSONUtil.deserialize(testJSON, false) />
+		<cfset debug(JSONUtilCF)>
+						
+		<cfset assertTrue(IsQuery(JSONUtilCF)) />
+		
 	</cffunction>	
 	
 	<cffunction name="testString" output="false" access="public" returntype="void" hint="Compare JSONUtil.deserialize to DeserializeJSON for a string.">

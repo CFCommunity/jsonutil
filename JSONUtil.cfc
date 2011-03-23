@@ -138,9 +138,9 @@ limitations under the License.
 			<!--- Store the data type we're dealing with --->
 			<cfif Left(_data, 1) EQ "[" AND Right(_data, 1) EQ "]">
 				<cfset dataType = "array" />
-			<cfelseif ReFindNoCase('^\{"ROWCOUNT":[0-9]+,"COLUMNS":\[("[^"]+",?)+\],"DATA":\{("[^"]+":\[[^]]*\],?)+\}\}$', _data, 0) EQ 1 AND NOT arguments.strictMapping>
+			<cfelseif ReFindNoCase('^\{"ROWCOUNT":[0-9]+,"COLUMNS":\[("[^"]+",?)+\],"DATA":\{("[^"]+":\[.*\],?)+\}\}$', _data, 0) EQ 1 AND NOT arguments.strictMapping>
 				<cfset dataType = "queryByColumns" />
-			<cfelseif ReFindNoCase('^\{"COLUMNS":\[("[^"]+",?)+\],"DATA":\[(\[[^]]*\],?)+\]\}$', _data, 0) EQ 1 AND NOT arguments.strictMapping>
+			<cfelseif ReFindNoCase('^\{"COLUMNS":\[("[^"]+",?)+\],"DATA":\[(\[.*\],?)+\]\}$', _data, 0) EQ 1 AND NOT arguments.strictMapping>
 				<cfset dataType = "query" />
 			<cfelse>
 				<cfset dataType = "struct" />
