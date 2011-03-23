@@ -17,7 +17,7 @@ limitations under the License.
 --->
 <cfcomponent displayname="JSONUtil" output="false">
 
-	<cfset this.deserialzeJSON = deserializeFromJSON />
+	<cfset this.deserializeJSON = deserializeFromJSON />
 	<cfset this.serializeJSON = serializeToJSON />	
 	
 	<cfset this.deserialize = deserializeFromJSON />
