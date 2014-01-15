@@ -210,6 +210,20 @@
 		<cfset referenceJSON = '"Hello World!"' />
 		<cfset assertEquals(testJSON,referenceJSON) />
 	</cffunction>
+
+	<cffunction name="testStringWithControlCharacter0003" output="false" access="public" returntype="void" hint="Compare JSONUtil.serialize to SerializeJSON for binary data.">
+		<cfset testValue = "MBA Reunion Weekend is May 16-18! Join your friends, classmates, and reignite your relationship with the Wharton School by registering today." />
+		<cfset testJSON = variables.JSONUtil.serialize(testValue) />
+		<cfset referenceJSON = '"MBA Reunion Weekend is May 16-18! Join your friends, classmates, and reignite \u0003your relationship with the Wharton School by registering today."' />
+		<cfset assertEquals(referenceJSON,testJSON) />		
+	</cffunction>
+
+	<cffunction name="testStringWithControlCharacter0019" output="false" access="public" returntype="void" hint="Compare JSONUtil.serialize to SerializeJSON for binary data.">
+		<cfset testValue = "An Icy Journey Gave Pennâs Leah Davidson a Worldly Perspective" />
+		<cfset testJSON = variables.JSONUtil.serialize(testValue) />
+		<cfset referenceJSON = '"An Icy Journey Gave Pennâ\u0019s Leah Davidson a Worldly Perspective"' />
+		<cfset assertEquals(referenceJSON,testJSON) />		
+	</cffunction>
 	
 	<cffunction name="testStruct" output="false" access="public" returntype="void" hint="Compare JSONUtil.serialize to SerializeJSON for a ColdFusion structure.">
 		<cfset testValue = {keyone="item one", keytwo="item two", keythree="item three"} />	
