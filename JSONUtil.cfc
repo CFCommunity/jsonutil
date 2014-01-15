@@ -366,8 +366,7 @@ limitations under the License.
 		
 		<!--- STRING --->
 		<cfelseif IsSimpleValue(_data)>
-			<!---<cfreturn '"' & ReplaceList(_data, escapeVals, escapeToVals) & '"' />--->
-			<cfreturn writeJsonUtf8String(_data) />
+			<cfreturn '"' & ReplaceList(_data, escapeVals, escapeToVals) & '"' />
 			
 		<!--- RAILO XML --->
 		<cfelseif StructKeyExists(server,"railo") and IsXML(_data)>
@@ -548,57 +547,6 @@ limitations under the License.
 				<cfreturn "" />
 			</cfcatch>			
 		</cftry>
-		
-	</cffunction>
-
-	<cffunction 
-		name="writeJsonUtf8String"
-		access="private" 
-		returntype="string" 
-		output="false"
-		hint="Returns a variable's underlying java Class name.">
-		<cfargument 
-			name="data" 
-			type="string" 
-			required="true"
-			hint="A string to serialze." />
-			
-		<!--- GET THE CLASS NAME --->
-		<cfset var json = '"' />
-		<cfset var end = Len(data) - 1 />
-		<cfset var i = 0 />
-		<cfset var c = "" />
-		<cfset var integer = CreateObject("java","java.lang.Integer") />
-		<cfset var pad = "" />
-		<cfloop from="0" to="#end#" index="i">
-			<cfset c = data.charAt(i) />
-			<cfif c lt ' '>            
-                <cfif c eq Chr(8)>                
-                    <cfset json = json & "\b" />                
-                <cfelseif c eq Chr(9)>                
-                	<cfset json = json & "\t" />                
-                <cfelseif c eq  Chr(10)>                
-                    <cfset json = json & "\n" />                
-                <cfelseif c eq  Chr(12)>                
-                    <cfset json = json & "\f" />                
-                <cfelseif c eq  Chr(13)>                
-                    <cfset json = json & "\r" />                
-                <cfelse>
-                    <cfset hex = integer.toHexString(c) />
-                    <cfset json = json & "\u" />
-                    <cfset pad = 4 - Len(hex) />
-                    <cfset json = json & RepeatString("0", pad) />
-                    <cfset json = json & hex />
-				</cfif>      
-            <cfelseif c eq '\' or c eq '/' or c eq '"'>            
-            	<cfset json = json & "\" & c />
-            <cfelse>
-                <cfset json = json & c />
-            </cfif>			
-		</cfloop>
-		<cfset json = json & '"' />
-
-		<cfreturn json />
 		
 	</cffunction>
 	
