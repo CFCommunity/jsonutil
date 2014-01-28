@@ -106,6 +106,17 @@
 		<cfset referenceJSON = '"October, 22 2009 21:41:27"' />
 		<cfset assertEquals(testJSON,referenceJSON) />
 	</cffunction>
+
+	<cffunction name="testNull" output="false" access="public" returntype="void" hint="Compare JSONUtil.serialize to SerializeJSON for a null.">
+		<cfset testValue = StructNew() />
+		<cfset testValue.a = "foo" />
+		<cfset testValue.b = JavaCast("null","") />
+		<cfset testJSON = variables.JSONUtil.serialize(testValue) />
+		<cfset debug(testJSON) />
+		<cfset referenceJSON = serializeJSON(testValue) />
+		<cfset debug(referenceJSON) />
+		<cfset assertEquals(testJSON,referenceJSON) />
+	</cffunction>
 	
 	<cffunction name="testNumericInteger" output="false" access="public" returntype="void" hint="Compare JSONUtil.serialize to SerializeJSON for a number.">
 		<cfset testValue = 123  />

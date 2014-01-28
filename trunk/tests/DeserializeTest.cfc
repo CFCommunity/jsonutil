@@ -122,6 +122,16 @@
 		<cfset assertEquals(JSONUtilCF,CF8CF) />
 	</cffunction>
 	
+	<cffunction name="testNull" output="false" access="public" returntype="void" hint="Compare JSONUtil.deserialize to DeserializeJSON for a null value.">
+		<cfset testJSON = '{"keyone":"item one", "keytwo":"item two", "keythree":null}' />
+		<cfset debug(testJSON)>
+		<cfset JSONUtilCF = variables.JSONUtil.deserialize(testJSON) />
+		<cfset debug(JSONUtilCF)>
+		<cfset CF8CF = DeserializeJSON(testJSON) />
+		<cfset debug(CF8CF)>
+		<cfset assertEquals(JSONUtilCF,CF8CF) />
+	</cffunction>
+
 	<cffunction name="testNumericInteger" output="false" access="public" returntype="void" hint="Compare JSONUtil.deserialize to DeserializeJSON for a number.">
 		<cfset testValue = 123  />
 		<cfset testJSON = SerializeJSON(testValue) />
