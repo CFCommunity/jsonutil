@@ -77,6 +77,7 @@ limitations under the License.
 		<cfset var unescapeVals2 = '\,",/,b,t,n,f,r' />
 		<cfset var unescapetoVals2 = '\,",/,#Chr(8)#,#Chr(9)#,#Chr(10)#,#Chr(12)#,#Chr(13)#' />
 		<cfset var dJSONString = "" />
+		<cfset var pos = 0 />
 		
 		<cfset var _data = Trim(arguments.JSONVar) />
 		
@@ -574,6 +575,8 @@ limitations under the License.
 		<cfset var c = "" />
 		<cfset var integer = CreateObject("java","java.lang.Integer") />
 		<cfset var pad = "" />
+		<cfset var hex = "" />
+		
 		<cfloop from="0" to="#end#" index="i">
 			<cfset c = data.charAt(i) />
 			<cfif c lt ' '>            
