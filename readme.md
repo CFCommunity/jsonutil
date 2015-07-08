@@ -8,7 +8,7 @@ CFMX 7 and other CFML engines, as well as strict mapping of data types
 for JSON serialization. For the latest releases and technical support
 please go to the official JSONUtil site:
 
-http://github.com/atuttle/jsonutil
+http://github.com/cfcommunity/jsonutil
 
 ## License and Credits
 
