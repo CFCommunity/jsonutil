@@ -373,7 +373,7 @@ limitations under the License.
 			<cfreturn writeJsonUtf8String(_data) />
 
 		<!--- RAILO XML --->
-		<cfelseif isLuceeRailo and IsXML(_data)>
+		<cfelseif this.isLuceeRailo and IsXML(_data)>
 			<cfreturn '"' & ReplaceList(ToString(_data), escapeVals, escapeToVals) & '"' />
 
 		<!--- CUSTOM FUNCTION --->
@@ -440,7 +440,7 @@ limitations under the License.
 					<cfset rowDel = "">
 					<cfloop from="1" to="#_data.recordcount#" index="i">
 						<cfset ArrayAppend(dJSONString,rowDel) />
-						<cfif (arguments.strictMapping or isLuceeRailo) AND Len(columnJavaTypes[column])>
+						<cfif (arguments.strictMapping or this.isLuceeRailo) AND Len(columnJavaTypes[column])>
 							<cfset tempVal = serializeToJSON( JavaCast(columnJavaTypes[column],_data[column][i]), arguments.serializeQueryByColumns, arguments.strictMapping ) />
 						<cfelse>
 							<cfset tempVal = serializeToJSON( _data[column][i], arguments.serializeQueryByColumns, arguments.strictMapping ) />
@@ -462,7 +462,7 @@ limitations under the License.
 					<cfset colDel = "">
 					<cfloop list="#columnlist#" delimiters="," index="column">
 						<cfset ArrayAppend(dJSONString,colDel) />
-						<cfif (arguments.strictMapping or isLuceeRailo) AND Len(columnJavaTypes[column])>
+						<cfif (arguments.strictMapping or this.isLuceeRailo) AND Len(columnJavaTypes[column])>
 							<cfset tempVal = serializeToJSON( JavaCast(columnJavaTypes[column],_data[column][i]), arguments.serializeQueryByColumns, arguments.strictMapping ) />
 						<cfelse>
 							<cfset tempVal = serializeToJSON( _data[column][i], arguments.serializeQueryByColumns, arguments.strictMapping ) />
