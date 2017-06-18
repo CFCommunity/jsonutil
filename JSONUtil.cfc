@@ -580,7 +580,7 @@ limitations under the License.
 		<cfset var hex = "" />
 
 		<cfloop from="0" to="#end#" index="i">
-			<cfset c = data.charAt(i) />
+			<cfset c = data.charAt(javacast("int", i)) />
 			<cfif c lt ' '>
                 <cfif c eq Chr(8)>
                     <cfset json = json & "\b" />
