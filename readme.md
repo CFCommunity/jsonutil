@@ -2,7 +2,7 @@
 
 ## Welcome
 
-Welcome to JSONUtil, a ColdFusion component meant to to provide
+Welcome to JSONUtil, a ColdFusion component meant to provide
 ColdFusion 8 compatible JSON serialization and deserialization for
 CFMX 7 and other CFML engines, as well as strict mapping of data types
 for JSON serialization. For the latest releases and technical support
