@@ -1,4 +1,5 @@
 <!---
+https://github.com/CFCommunity/jsonutil
 
 Copyright 2009 Nathan Mische
 
@@ -365,7 +366,11 @@ limitations under the License.
 
 		<!--- DATE --->
 		<cfelseif IsDate(_data)>
-			<cfreturn '"#DateFormat(_data, "mmmm, dd yyyy")# #TimeFormat(_data, "HH:mm:ss")#"' />
+			<cfif len(_data) EQ 10>
+				<cfreturn '"' & dateFormat(_data, "yyyy-mm-dd") & '"'>
+			<cfelse>
+				<cfreturn '"' & dateFormat(_data, "yyyy-mm-dd") & 'T' & timeFormat(_data, "HH:mm:ss.l") & '"'>
+			</cfif>
 
 		<!--- STRING --->
 		<cfelseif IsSimpleValue(_data)>
