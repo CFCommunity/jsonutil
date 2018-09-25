@@ -6,7 +6,7 @@ Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
 You may obtain a copy of the License at
 
-    http://www.apache.org/licenses/LICENSE-2.0
+	http://www.apache.org/licenses/LICENSE-2.0
 
 Unless required by applicable law or agreed to in writing, software
 distributed under the License is distributed on an "AS IS" BASIS,
@@ -106,7 +106,7 @@ limitations under the License.
 				(required because ReplaceList() won't work with those) --->
 			<cfif Find("\b", _data) OR Find("\t", _data) OR Find("\n", _data) OR Find("\f", _data) OR Find("\r", _data)>
 				<cfset curCharIndex = 0>
-				<cfset curChar =  "">
+				<cfset curChar = "">
 				<cfset dJSONString = ArrayNew(1)>
 				<cfloop condition="true">
 					<cfset curCharIndex = curCharIndex + 1>
@@ -582,28 +582,28 @@ limitations under the License.
 		<cfloop from="0" to="#end#" index="i">
 			<cfset c = data.charAt(i)>
 			<cfif c lt ' '>
-                <cfif c eq Chr(8)>
-                    <cfset json = json & "\b">
-                <cfelseif c eq Chr(9)>
-                	<cfset json = json & "\t">
-                <cfelseif c eq  Chr(10)>
-                    <cfset json = json & "\n">
-                <cfelseif c eq  Chr(12)>
-                    <cfset json = json & "\f">
-                <cfelseif c eq  Chr(13)>
-                    <cfset json = json & "\r">
-                <cfelse>
-                    <cfset hex = integer.toHexString(c)>
-                    <cfset json = json & "\u">
-                    <cfset pad = 4 - Len(hex)>
-                    <cfset json = json & RepeatString("0", pad)>
-                    <cfset json = json & hex>
+				<cfif c eq Chr(8)>
+					<cfset json = json & "\b">
+				<cfelseif c eq Chr(9)>
+					<cfset json = json & "\t">
+				<cfelseif c eq Chr(10)>
+					<cfset json = json & "\n">
+				<cfelseif c eq Chr(12)>
+					<cfset json = json & "\f">
+				<cfelseif c eq Chr(13)>
+					<cfset json = json & "\r">
+				<cfelse>
+					<cfset hex = integer.toHexString(c)>
+					<cfset json = json & "\u">
+					<cfset pad = 4 - Len(hex)>
+					<cfset json = json & RepeatString("0", pad)>
+					<cfset json = json & hex>
 				</cfif>
-            <cfelseif c eq '\' or c eq '/' or c eq '"'>
-            	<cfset json = json & "\" & c>
-            <cfelse>
-                <cfset json = json & c>
-            </cfif>
+			<cfelseif c eq '\' or c eq '/' or c eq '"'>
+				<cfset json = json & "\" & c>
+			<cfelse>
+				<cfset json = json & c>
+			</cfif>
 		</cfloop>
 		<cfset json = json & '"'>
 
