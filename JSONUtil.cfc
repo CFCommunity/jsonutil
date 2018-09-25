@@ -52,8 +52,8 @@ limitations under the License.
 				</ul>">
 
 		<!--- DECLARE VARIABLES --->
-		<cfset var ar = ArrayNew(1)>
-		<cfset var st = StructNew()>
+		<cfset var ar = arrayNew(1)>
+		<cfset var st = structNew()>
 		<cfset var dataType = "">
 		<cfset var inQuotes = false>
 		<cfset var startPos = 1>
@@ -75,16 +75,16 @@ limitations under the License.
 		<cfset var curChar = "">
 		<cfset var result = "">
 		<cfset var unescapeVals = "\\,\"",\/,\b,\t,\n,\f,\r">
-		<cfset var unescapeToVals = "\,"",/,#Chr(8)#,#Chr(9)#,#Chr(10)#,#Chr(12)#,#Chr(13)#">
+		<cfset var unescapeToVals = "\,"",/,#chr(8)#,#chr(9)#,#chr(10)#,#chr(12)#,#chr(13)#">
 		<cfset var unescapeVals2 = '\,",/,b,t,n,f,r'>
-		<cfset var unescapetoVals2 = '\,",/,#Chr(8)#,#Chr(9)#,#Chr(10)#,#Chr(12)#,#Chr(13)#'>
+		<cfset var unescapetoVals2 = '\,",/,#chr(8)#,#chr(9)#,#chr(10)#,#chr(12)#,#chr(13)#'>
 		<cfset var dJSONString = "">
 		<cfset var pos = 0>
 
-		<cfset var _data = Trim(arguments.JSONVar)>
+		<cfset var _data = trim(arguments.jsonVar)>
 
 		<!--- NUMBER --->
-		<cfif IsNumeric(_data)>
+		<cfif isNumeric(_data)>
 			<cfreturn Val(_data)>
 
 		<!--- NULL --->
@@ -92,7 +92,7 @@ limitations under the License.
 			<cfreturn "null">
 
 		<!--- BOOLEAN --->
-		<cfelseif ListFindNoCase("true,false", _data)>
+		<cfelseif listFindNoCase("true,false", _data)>
 			<cfreturn _data>
 
 		<!--- EMPTY STRING --->
@@ -100,14 +100,14 @@ limitations under the License.
 			<cfreturn "">
 
 		<!--- STRING --->
-		<cfelseif ReFind('^"[^\\"]*(?:\\.[^\\"]*)*"$', _data) EQ 1 OR ReFind("^'[^\\']*(?:\\.[^\\']*)*'$", _data) EQ 1>
-			<cfset _data = mid(_data, 2, Len(_data)-2)>
+		<cfelseif reFind('^"[^\\"]*(?:\\.[^\\"]*)*"$', _data) EQ 1 OR reFind("^'[^\\']*(?:\\.[^\\']*)*'$", _data) EQ 1>
+			<cfset _data = mid(_data, 2, len(_data)-2)>
 			<!--- If there are any \b, \t, \n, \f, and \r, do extra processing
-				(required because ReplaceList() won't work with those) --->
-			<cfif Find("\b", _data) OR Find("\t", _data) OR Find("\n", _data) OR Find("\f", _data) OR Find("\r", _data)>
+				(required because replaceList() won't work with those) --->
+			<cfif find("\b", _data) OR find("\t", _data) OR find("\n", _data) OR find("\f", _data) OR find("\r", _data)>
 				<cfset curCharIndex = 0>
 				<cfset curChar = "">
-				<cfset dJSONString = ArrayNew(1)>
+				<cfset dJSONString = arrayNew(1)>
 				<cfloop condition="true">
 					<cfset curCharIndex = curCharIndex + 1>
 					<cfif curCharIndex GT len(_data)>
@@ -119,41 +119,41 @@ limitations under the License.
 							<cfset curChar = mid(_data, curCharIndex,1)>
 							<cfset pos = listFind(unescapeVals2, curChar)>
 							<cfif pos>
-								<cfset ArrayAppend(dJSONString,ListGetAt(unescapetoVals2, pos))>
+								<cfset arrayAppend(dJSONString,listGetAt(unescapetoVals2, pos))>
 							<cfelse>
-								<cfset ArrayAppend(dJSONString,"\" & curChar)>
+								<cfset arrayAppend(dJSONString,"\" & curChar)>
 							</cfif>
 						<cfelse>
-							<cfset ArrayAppend(dJSONString,curChar)>
+							<cfset arrayAppend(dJSONString,curChar)>
 						</cfif>
 					</cfif>
 				</cfloop>
 
-				<cfreturn ArrayToList(dJSONString,"")>
+				<cfreturn arrayToList(dJSONString,"")>
 			<cfelse>
-				<cfreturn ReplaceList(_data, unescapeVals, unescapeToVals)>
+				<cfreturn replaceList(_data, unescapeVals, unescapeToVals)>
 			</cfif>
 
 		<!--- ARRAY, STRUCT, OR QUERY --->
-		<cfelseif ( Left(_data, 1) EQ "[" AND Right(_data, 1) EQ "]" )
-			OR ( Left(_data, 1) EQ "{" AND Right(_data, 1) EQ "}" )>
+		<cfelseif ( left(_data, 1) EQ "[" AND right(_data, 1) EQ "]" )
+			OR ( left(_data, 1) EQ "{" AND right(_data, 1) EQ "}" )>
 
 			<!--- Store the data type we're dealing with --->
-			<cfif Left(_data, 1) EQ "[" AND Right(_data, 1) EQ "]">
+			<cfif left(_data, 1) EQ "[" AND right(_data, 1) EQ "]">
 				<cfset dataType = "array">
-			<cfelseif ReFindNoCase('^\{"ROWCOUNT":[0-9]+,"COLUMNS":\[("[^"]+",?)+\],"DATA":\{("[^"]+":\[.*\],?)+\}\}$', _data, 0) EQ 1 AND NOT arguments.strictMapping>
+			<cfelseif reFindNoCase('^\{"ROWCOUNT":[0-9]+,"COLUMNS":\[("[^"]+",?)+\],"DATA":\{("[^"]+":\[.*\],?)+\}\}$', _data, 0) EQ 1 AND NOT arguments.strictMapping>
 				<cfset dataType = "queryByColumns">
-			<cfelseif ReFindNoCase('^\{"COLUMNS":\[("[^"]+",?)+\],"DATA":\[(\[.*\],?)+\]\}$', _data, 0) EQ 1 AND NOT arguments.strictMapping>
+			<cfelseif reFindNoCase('^\{"COLUMNS":\[("[^"]+",?)+\],"DATA":\[(\[.*\],?)+\]\}$', _data, 0) EQ 1 AND NOT arguments.strictMapping>
 				<cfset dataType = "query">
 			<cfelse>
 				<cfset dataType = "struct">
 			</cfif>
 
 			<!--- Remove the brackets --->
-			<cfset _data = Trim( Mid(_data, 2, Len(_data)-2) )>
+			<cfset _data = trim( mid(_data, 2, len(_data)-2) )>
 
 			<!--- Deal with empty array/struct --->
-			<cfif Len(_data) EQ 0>
+			<cfif len(_data) EQ 0>
 				<cfif dataType EQ "array">
 					<cfreturn ar>
 				<cfelse>
@@ -162,11 +162,11 @@ limitations under the License.
 			</cfif>
 
 			<!--- Loop through the string characters --->
-			<cfset dataSize = Len(_data) + 1>
+			<cfset dataSize = len(_data) + 1>
 			<cfloop condition="#i# LTE #dataSize#">
 				<cfset skipIncrement = false>
 				<!--- Save current character --->
-				<cfset char = Mid(_data, i, 1)>
+				<cfset char = mid(_data, i, 1)>
 
 				<!--- If char is a quote, switch the quote status --->
 				<cfif char EQ '"'>
@@ -176,33 +176,33 @@ limitations under the License.
 					<cfset i = i + 2>
 					<cfset skipIncrement = true>
 				<!--- If char is a comma and is not in quotes, or if end of string, deal with data --->
-				<cfelseif (char EQ "," AND NOT inQuotes AND nestingLevel EQ 0) OR i EQ Len(_data)+1>
-					<cfset dataStr = Mid(_data, startPos, i-startPos)>
+				<cfelseif (char EQ "," AND NOT inQuotes AND nestingLevel EQ 0) OR i EQ len(_data)+1>
+					<cfset dataStr = mid(_data, startPos, i-startPos)>
 
 					<!--- If data type is array, append data to the array --->
 					<cfif dataType EQ "array">
 						<cfset arrayappend( ar, deserializeFromJSON(dataStr, arguments.strictMapping) )>
 					<!--- If data type is struct or query or queryByColumns... --->
 					<cfelseif dataType EQ "struct" OR dataType EQ "query" OR dataType EQ "queryByColumns">
-						<cfset dataStr = Mid(_data, startPos, i-startPos)>
-						<cfset colonPos = Find('":', dataStr)>
+						<cfset dataStr = mid(_data, startPos, i-startPos)>
+						<cfset colonPos = find('":', dataStr)>
 						<cfif colonPos>
 							<cfset colonPos = colonPos + 1>
 						<cfelse>
-							<cfset colonPos = Find(":", dataStr)>
+							<cfset colonPos = find(":", dataStr)>
 						</cfif>
-						<cfset structKey = Trim( Mid(dataStr, 1, colonPos-1) )>
+						<cfset structKey = trim( mid(dataStr, 1, colonPos-1) )>
 
 						<!--- If needed, remove quotes from keys --->
-						<cfif Left(structKey, 1) EQ "'" OR Left(structKey, 1) EQ '"'>
-							<cfset structKey = Mid( structKey, 2, Len(structKey)-2 )>
+						<cfif left(structKey, 1) EQ "'" OR left(structKey, 1) EQ '"'>
+							<cfset structKey = mid( structKey, 2, len(structKey)-2 )>
 						</cfif>
 
-						<cfset structVal = Mid( dataStr, colonPos+1, Len(dataStr)-colonPos )>
+						<cfset structVal = mid( dataStr, colonPos+1, len(dataStr)-colonPos )>
 
 						<!--- If struct, add to the structure --->
 						<cfif dataType EQ "struct">
-							<cfset StructInsert( st, structKey, deserializeFromJSON(structVal, arguments.strictMapping) )>
+							<cfset structInsert( st, structKey, deserializeFromJSON(structVal, arguments.strictMapping) )>
 
 						<!--- If query, build the query --->
 						<cfelseif dataType EQ "queryByColumns">
@@ -210,31 +210,31 @@ limitations under the License.
 								<cfset qRows = deserializeFromJSON(structVal, arguments.strictMapping)>
 							<cfelseif structKey EQ "columns">
 								<cfset qCols = deserializeFromJSON(structVal, arguments.strictMapping)>
-								<cfset st = QueryNew(ArrayToList(qCols))>
+								<cfset st = queryNew(arrayToList(qCols))>
 								<cfif qRows>
-									<cfset QueryAddRow(st, qRows)>
+									<cfset queryAddRow(st, qRows)>
 								</cfif>
 							<cfelseif structKey EQ "data">
 								<cfset qData = deserializeFromJSON(structVal, arguments.strictMapping)>
-								<cfset ar = StructKeyArray(qData)>
-								<cfloop from="1" to="#ArrayLen(ar)#" index="j">
+								<cfset ar = structKeyArray(qData)>
+								<cfloop from="1" to="#arrayLen(ar)#" index="j">
 									<cfloop from="1" to="#st.recordcount#" index="qRows">
 										<cfset qCol = ar[j]>
-										<cfset QuerySetCell(st, qCol, qData[qCol][qRows], qRows)>
+										<cfset querySetCell(st, qCol, qData[qCol][qRows], qRows)>
 									</cfloop>
 								</cfloop>
 							</cfif>
 						<cfelseif dataType EQ "query">
 							<cfif structKey EQ "columns">
 								<cfset qCols = deserializeFromJSON(structVal, arguments.strictMapping)>
-								<cfset st = QueryNew(ArrayToList(qCols))>
+								<cfset st = queryNew(arrayToList(qCols))>
 							<cfelseif structKey EQ "data">
 								<cfset qData = deserializeFromJSON(structVal, arguments.strictMapping)>
-								<cfloop from="1" to="#ArrayLen(qData)#" index="qRows">
-									<cfset QueryAddRow(st)>
-									<cfloop from="1" to="#ArrayLen(qCols)#" index="j">
+								<cfloop from="1" to="#arrayLen(qData)#" index="qRows">
+									<cfset queryAddRow(st)>
+									<cfloop from="1" to="#arrayLen(qCols)#" index="j">
 										<cfset qCol = qCols[j]>
-										<cfset QuerySetCell(st, qCol, qData[qRows][j], qRows)>
+										<cfset querySetCell(st, qCol, qData[qRows][j], qRows)>
 									</cfloop>
 								</cfloop>
 							</cfif>
@@ -318,7 +318,7 @@ limitations under the License.
 		<cfset var columnJavaTypes = "">
 		<cfset var dJSONString = "">
 		<cfset var escapeToVals = "\\,\"",\/,\b,\t,\n,\f,\r">
-		<cfset var escapeVals = "\,"",/,#Chr(8)#,#Chr(9)#,#Chr(10)#,#Chr(12)#,#Chr(13)#">
+		<cfset var escapeVals = "\,"",/,#chr(8)#,#chr(9)#,#chr(10)#,#chr(12)#,#chr(13)#">
 
 		<cfset var _data = arguments.var>
 
@@ -329,34 +329,34 @@ limitations under the License.
 
 		<!--- TRY STRICT MAPPING --->
 
-		<cfif Len(className) AND CompareNoCase(className,"java.lang.String") eq 0>
-			<cfreturn '"' & ReplaceList(_data, escapeVals, escapeToVals) & '"'>
+		<cfif len(className) AND compareNoCase(className,"java.lang.String") eq 0>
+			<cfreturn '"' & replaceList(_data, escapeVals, escapeToVals) & '"'>
 
-		<cfelseif Len(className) AND CompareNoCase(className,"java.lang.Boolean") eq 0>
-			<cfreturn ReplaceList(ToString(_data), 'YES,NO', 'true,false')>
+		<cfelseif len(className) AND compareNoCase(className,"java.lang.Boolean") eq 0>
+			<cfreturn replaceList(toString(_data), 'YES,NO', 'true,false')>
 
-		<cfelseif Len(className) AND CompareNoCase(className,"java.lang.Integer") eq 0>
-			<cfreturn ToString(_data)>
+		<cfelseif len(className) AND compareNoCase(className,"java.lang.Integer") eq 0>
+			<cfreturn toString(_data)>
 
-		<cfelseif Len(className) AND CompareNoCase(className,"java.lang.Long") eq 0>
-			<cfreturn ToString(_data)>
+		<cfelseif len(className) AND compareNoCase(className,"java.lang.Long") eq 0>
+			<cfreturn toString(_data)>
 
-		<cfelseif Len(className) AND CompareNoCase(className,"java.lang.Float") eq 0>
-			<cfreturn ToString(_data)>
+		<cfelseif len(className) AND compareNoCase(className,"java.lang.Float") eq 0>
+			<cfreturn toString(_data)>
 
-		<cfelseif Len(className) AND CompareNoCase(className,"java.lang.Double") eq 0>
-			<cfreturn ToString(_data)>
+		<cfelseif len(className) AND compareNoCase(className,"java.lang.Double") eq 0>
+			<cfreturn toString(_data)>
 
 		<!--- BINARY --->
-		<cfelseif IsBinary(_data)>
+		<cfelseif isBinary(_data)>
 			<cfthrow message="JSON serialization failure: Unable to serialize binary data to JSON.">
 
 		<!--- BOOLEAN --->
-		<cfelseif IsBoolean(_data) AND NOT IsNumeric(_data)>
-			<cfreturn ReplaceList(YesNoFormat(_data), 'Yes,No', 'true,false')>
+		<cfelseif isBoolean(_data) AND NOT isNumeric(_data)>
+			<cfreturn replaceList(YesNoFormat(_data), 'Yes,No', 'true,false')>
 
 		<!--- NUMBER --->
-		<cfelseif IsNumeric(_data)>
+		<cfelseif isNumeric(_data)>
 			<cfif getClassName(_data) eq "java.lang.String">
 				<cfreturn Val(_data).toString()>
 			<cfelse>
@@ -364,65 +364,65 @@ limitations under the License.
 			</cfif>
 
 		<!--- DATE --->
-		<cfelseif IsDate(_data)>
-			<cfreturn '"#DateFormat(_data, "mmmm, dd yyyy")# #TimeFormat(_data, "HH:mm:ss")#"'>
+		<cfelseif isDate(_data)>
+			<cfreturn '"#dateFormat(_data, "mmmm, dd yyyy")# #timeFormat(_data, "HH:mm:ss")#"'>
 
 		<!--- STRING --->
-		<cfelseif IsSimpleValue(_data)>
-			<!---<cfreturn '"' & ReplaceList(_data, escapeVals, escapeToVals) & '"'>--->
+		<cfelseif isSimpleValue(_data)>
+			<!---<cfreturn '"' & replaceList(_data, escapeVals, escapeToVals) & '"'>--->
 			<cfreturn writeJsonUtf8String(_data)>
 
 		<!--- RAILO XML --->
-		<cfelseif this.isLuceeRailo and IsXML(_data)>
-			<cfreturn '"' & ReplaceList(ToString(_data), escapeVals, escapeToVals) & '"'>
+		<cfelseif this.isLuceeRailo and isXML(_data)>
+			<cfreturn '"' & replaceList(toString(_data), escapeVals, escapeToVals) & '"'>
 
 		<!--- CUSTOM FUNCTION --->
-		<cfelseif IsCustomFunction(_data)>
-			<cfreturn serializeToJSON( GetMetadata(_data), arguments.serializeQueryByColumns, arguments.strictMapping)>
+		<cfelseif isCustomFunction(_data)>
+			<cfreturn serializeToJSON( getMetadata(_data), arguments.serializeQueryByColumns, arguments.strictMapping)>
 
 		<!--- OBJECT --->
-		<cfelseif IsObject(_data)>
+		<cfelseif isObject(_data)>
 			<cfreturn "{}">
 
 		<!--- ARRAY --->
-		<cfelseif IsArray(_data)>
-			<cfset dJSONString = ArrayNew(1)>
-			<cfloop from="1" to="#ArrayLen(_data)#" index="i">
+		<cfelseif isArray(_data)>
+			<cfset dJSONString = arrayNew(1)>
+			<cfloop from="1" to="#arrayLen(_data)#" index="i">
 				<cfset tempVal = serializeToJSON( _data[i], arguments.serializeQueryByColumns, arguments.strictMapping )>
-				<cfset ArrayAppend(dJSONString,tempVal)>
+				<cfset arrayAppend(dJSONString,tempVal)>
 			</cfloop>
 
-			<cfreturn "[" & ArrayToList(dJSONString,",") & "]">
+			<cfreturn "[" & arrayToList(dJSONString,",") & "]">
 
 		<!--- STRUCT --->
-		<cfelseif IsStruct(_data)>
-			<cfset dJSONString = ArrayNew(1)>
-			<cfset arKeys = StructKeyArray(_data)>
-			<cfloop from="1" to="#ArrayLen(arKeys)#" index="i">
-				<cfif IsDefined("_data.#arKeys[i]#") >
+		<cfelseif isStruct(_data)>
+			<cfset dJSONString = arrayNew(1)>
+			<cfset arKeys = structKeyArray(_data)>
+			<cfloop from="1" to="#arrayLen(arKeys)#" index="i">
+				<cfif isDefined("_data.#arKeys[i]#")>
 					<cfset tempVal = serializeToJSON(_data[ arKeys[i] ], arguments.serializeQueryByColumns, arguments.strictMapping )>
 				<cfelse>
 					<cfset tempVal = "null">
 				</cfif>
-				<cfset ArrayAppend(dJSONString,'"' & arKeys[i] & '":' & tempVal)>
+				<cfset arrayAppend(dJSONString,'"' & arKeys[i] & '":' & tempVal)>
 			</cfloop>
 
-			<cfreturn "{" & ArrayToList(dJSONString,",") & "}">
+			<cfreturn "{" & arrayToList(dJSONString,",") & "}">
 
 		<!--- QUERY --->
-		<cfelseif IsQuery(_data)>
-			<cfset dJSONString = ArrayNew(1)>
+		<cfelseif isQuery(_data)>
+			<cfset dJSONString = arrayNew(1)>
 
 			<!--- Add query meta data --->
 			<cfset recordcountKey = "ROWCOUNT">
 			<cfset columnlistKey = "COLUMNS">
 			<cfset columnlist = "">
 			<cfset dataKey = "DATA">
-			<cfset md = GetMetadata(_data)>
-			<cfset columnJavaTypes = StructNew()>
-			<cfloop from="1" to="#ArrayLen(md)#" index="column">
-				<cfset columnlist = ListAppend(columnlist,UCase(md[column].Name),',')>
-				<cfif StructKeyExists(md[column],"TypeName")>
+			<cfset md = getMetadata(_data)>
+			<cfset columnJavaTypes = structNew()>
+			<cfloop from="1" to="#arrayLen(md)#" index="column">
+				<cfset columnlist = listAppend(columnlist,uCase(md[column].Name),',')>
+				<cfif structKeyExists(md[column],"TypeName")>
 					<cfset columnJavaTypes[md[column].Name] = getJavaType(md[column].TypeName)>
 				<cfelse>
 					<cfset columnJavaTypes[md[column].Name] = "">
@@ -430,57 +430,57 @@ limitations under the License.
 			</cfloop>
 
 			<cfif arguments.serializeQueryByColumns>
-				<cfset ArrayAppend(dJSONString,'"#recordcountKey#":' & _data.recordcount)>
-				<cfset ArrayAppend(dJSONString,',"#columnlistKey#":[' & ListQualify(columnlist, '"') & ']')>
-				<cfset ArrayAppend(dJSONString,',"#dataKey#":{')>
+				<cfset arrayAppend(dJSONString,'"#recordcountKey#":' & _data.recordcount)>
+				<cfset arrayAppend(dJSONString,',"#columnlistKey#":[' & listQualify(columnlist, '"') & ']')>
+				<cfset arrayAppend(dJSONString,',"#dataKey#":{')>
 				<cfset colDel = "">
 				<cfloop list="#columnlist#" delimiters="," index="column">
-					<cfset ArrayAppend(dJSONString,colDel)>
-					<cfset ArrayAppend(dJSONString,'"#column#":[')>
+					<cfset arrayAppend(dJSONString,colDel)>
+					<cfset arrayAppend(dJSONString,'"#column#":[')>
 					<cfset rowDel = "">
 					<cfloop from="1" to="#_data.recordcount#" index="i">
-						<cfset ArrayAppend(dJSONString,rowDel)>
-						<cfif (arguments.strictMapping or this.isLuceeRailo) AND Len(columnJavaTypes[column])>
-							<cfset tempVal = serializeToJSON( JavaCast(columnJavaTypes[column],_data[column][i]), arguments.serializeQueryByColumns, arguments.strictMapping )>
+						<cfset arrayAppend(dJSONString,rowDel)>
+						<cfif (arguments.strictMapping or this.isLuceeRailo) AND len(columnJavaTypes[column])>
+							<cfset tempVal = serializeToJSON( javaCast(columnJavaTypes[column],_data[column][i]), arguments.serializeQueryByColumns, arguments.strictMapping )>
 						<cfelse>
 							<cfset tempVal = serializeToJSON( _data[column][i], arguments.serializeQueryByColumns, arguments.strictMapping )>
 						</cfif>
-						<cfset ArrayAppend(dJSONString,tempVal)>
+						<cfset arrayAppend(dJSONString,tempVal)>
 						<cfset rowDel = ",">
 					</cfloop>
-					<cfset ArrayAppend(dJSONString,']')>
+					<cfset arrayAppend(dJSONString,']')>
 					<cfset colDel = ",">
 				</cfloop>
-				<cfset ArrayAppend(dJSONString,'}')>
+				<cfset arrayAppend(dJSONString,'}')>
 			<cfelse>
-				<cfset ArrayAppend(dJSONString,'"#columnlistKey#":[' & ListQualify(columnlist, '"') & ']')>
-				<cfset ArrayAppend(dJSONString,',"#dataKey#":[')>
+				<cfset arrayAppend(dJSONString,'"#columnlistKey#":[' & listQualify(columnlist, '"') & ']')>
+				<cfset arrayAppend(dJSONString,',"#dataKey#":[')>
 				<cfset rowDel = "">
 				<cfloop from="1" to="#_data.recordcount#" index="i">
-					<cfset ArrayAppend(dJSONString,rowDel)>
-					<cfset ArrayAppend(dJSONString,'[')>
+					<cfset arrayAppend(dJSONString,rowDel)>
+					<cfset arrayAppend(dJSONString,'[')>
 					<cfset colDel = "">
 					<cfloop list="#columnlist#" delimiters="," index="column">
-						<cfset ArrayAppend(dJSONString,colDel)>
-						<cfif (arguments.strictMapping or this.isLuceeRailo) AND Len(columnJavaTypes[column])>
-							<cfset tempVal = serializeToJSON( JavaCast(columnJavaTypes[column],_data[column][i]), arguments.serializeQueryByColumns, arguments.strictMapping )>
+						<cfset arrayAppend(dJSONString,colDel)>
+						<cfif (arguments.strictMapping or this.isLuceeRailo) AND len(columnJavaTypes[column])>
+							<cfset tempVal = serializeToJSON( javaCast(columnJavaTypes[column],_data[column][i]), arguments.serializeQueryByColumns, arguments.strictMapping )>
 						<cfelse>
 							<cfset tempVal = serializeToJSON( _data[column][i], arguments.serializeQueryByColumns, arguments.strictMapping )>
 						</cfif>
-						<cfset ArrayAppend(dJSONString,tempVal)>
+						<cfset arrayAppend(dJSONString,tempVal)>
 						<cfset colDel=",">
 					</cfloop>
-					<cfset ArrayAppend(dJSONString,']')>
+					<cfset arrayAppend(dJSONString,']')>
 					<cfset rowDel = ",">
 				</cfloop>
-				<cfset ArrayAppend(dJSONString,']')>
+				<cfset arrayAppend(dJSONString,']')>
 			</cfif>
 
-			<cfreturn "{" & ArrayToList(dJSONString,"") & "}">
+			<cfreturn "{" & arrayToList(dJSONString,"") & "}">
 
 		<!--- XML --->
-		<cfelseif IsXML(_data)>
-			<cfreturn '"' & ReplaceList(ToString(_data), escapeVals, escapeToVals) & '"'>
+		<cfelseif isXML(_data)>
+			<cfreturn '"' & replaceList(toString(_data), escapeVals, escapeToVals) & '"'>
 
 
 		<!--- UNKNOWN OBJECT TYPE --->
@@ -572,7 +572,7 @@ limitations under the License.
 
 		<!--- GET THE CLASS NAME --->
 		<cfset var json = '"'>
-		<cfset var end = Len(data) - 1>
+		<cfset var end = len(data) - 1>
 		<cfset var i = 0>
 		<cfset var c = "">
 		<cfset var integer = CreateObject("java","java.lang.Integer")>
@@ -582,21 +582,21 @@ limitations under the License.
 		<cfloop from="0" to="#end#" index="i">
 			<cfset c = data.charAt(i)>
 			<cfif c lt ' '>
-				<cfif c eq Chr(8)>
+				<cfif c eq chr(8)>
 					<cfset json = json & "\b">
-				<cfelseif c eq Chr(9)>
+				<cfelseif c eq chr(9)>
 					<cfset json = json & "\t">
-				<cfelseif c eq Chr(10)>
+				<cfelseif c eq chr(10)>
 					<cfset json = json & "\n">
-				<cfelseif c eq Chr(12)>
+				<cfelseif c eq chr(12)>
 					<cfset json = json & "\f">
-				<cfelseif c eq Chr(13)>
+				<cfelseif c eq chr(13)>
 					<cfset json = json & "\r">
 				<cfelse>
 					<cfset hex = integer.toHexString(c)>
 					<cfset json = json & "\u">
-					<cfset pad = 4 - Len(hex)>
-					<cfset json = json & RepeatString("0", pad)>
+					<cfset pad = 4 - len(hex)>
+					<cfset json = json & repeatString("0", pad)>
 					<cfset json = json & hex>
 				</cfif>
 			<cfelseif c eq '\' or c eq '/' or c eq '"'>
